@@ -1,6 +1,7 @@
 package org.ex.study.web;
 
 import lombok.RequiredArgsConstructor;
+import org.ex.study.config.auth.LoginUser;
 import org.ex.study.config.auth.dto.SessionDto;
 import org.ex.study.service.posts.PostsService;
 import org.ex.study.web.dto.PostsResponseDto;
@@ -20,10 +21,9 @@ public class IndexController {
     private final HttpSession httpSession;
 
     @GetMapping("/")
-    public String index(Model model) {
+    public String index(Model model, @LoginUser SessionDto user) {
         model.addAttribute("posts", postsService.findAllDesc());
 
-        SessionDto user = (SessionDto) httpSession.getAttribute("user");
         if(user != null) {
             model.addAttribute("userName", user.getName());
         }
